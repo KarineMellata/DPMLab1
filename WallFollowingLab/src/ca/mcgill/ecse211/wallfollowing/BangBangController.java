@@ -28,12 +28,28 @@ public class BangBangController implements UltrasonicController {
     this.distance = distance;
     // TODO: process a movement based on the us distance passed in (BANG-BANG style)
     int distError = bandCenter - distance; //Error = reference control value - measured distance from the wall
-    //if(Math.abs(distError) <= 2) {
-    		WallFollowingLab.leftMotor.setSpeed(200);
-    		WallFollowingLab.rightMotor.setSpeed(100);
+    int DEADBAND = 2; //Standoff distance to wall
+    int FWDSPEED = 200; //Error threshold
+    int DELTASPD = 100; //Default rotational speed of wheels
+    int WALLDIST = 30; // Bang-bang constant
+    if(Math.abs(distError) <= DEADBAND) { //Within tolerance - Keep going.
+    		WallFollowingLab.leftMotor.setSpeed(FWDSPEED); //0 bias
+    		WallFollowingLab.rightMotor.setSpeed(FWDSPEED);
     		WallFollowingLab.leftMotor.forward();
     		WallFollowingLab.rightMotor.forward();
-    //}
+    }
+    else if(distError > 0) { //Too close to the wall - Move away.
+		WallFollowingLab.leftMotor.setSpeed(FWDSPEED); 
+		WallFollowingLab.rightMotor.setSpeed(FWDSPEED - DELTASPD);
+		WallFollowingLab.leftMotor.forward();
+		WallFollowingLab.rightMotor.forward();
+    }
+    else if(distError < 0) { //Too far from the wall - Move closer.
+		WallFollowingLab.leftMotor.setSpeed(FWDSPEED - DELTASPD);
+		WallFollowingLab.rightMotor.setSpeed(FWDSPEED);
+		WallFollowingLab.leftMotor.forward();
+		WallFollowingLab.rightMotor.forward();
+    }
     
     
   }
