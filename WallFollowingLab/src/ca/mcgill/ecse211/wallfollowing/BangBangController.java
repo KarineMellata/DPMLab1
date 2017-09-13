@@ -1,6 +1,7 @@
 package ca.mcgill.ecse211.wallfollowing;
 
 import lejos.hardware.motor.*;
+import java.math.*;
 
 public class BangBangController implements UltrasonicController {
 
@@ -26,6 +27,15 @@ public class BangBangController implements UltrasonicController {
   public void processUSData(int distance) {
     this.distance = distance;
     // TODO: process a movement based on the us distance passed in (BANG-BANG style)
+    int distError = bandCenter - distance; //Error = reference control value - measured distance from the wall
+    //if(Math.abs(distError) <= 2) {
+    		WallFollowingLab.leftMotor.setSpeed(200);
+    		WallFollowingLab.rightMotor.setSpeed(100);
+    		WallFollowingLab.leftMotor.forward();
+    		WallFollowingLab.rightMotor.forward();
+    //}
+    
+    
   }
 
   @Override
