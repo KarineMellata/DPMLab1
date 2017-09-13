@@ -36,7 +36,7 @@ public class UltrasonicPoller extends Thread {
       correctedDistance = (int) (distance * 0.707106);
       cont.processUSData(correctedDistance); // now take action depending on value
       try {
-        Thread.sleep(50);
+        //Thread.sleep(10);
       } catch (Exception e) {
       } // Poor man's timed sampling
     }

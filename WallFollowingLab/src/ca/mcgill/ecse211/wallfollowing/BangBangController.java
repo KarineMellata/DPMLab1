@@ -17,10 +17,10 @@ public class BangBangController implements UltrasonicController {
     this.bandwidth = bandwidth;
     this.motorLow = motorLow;
     this.motorHigh = motorHigh;
-    WallFollowingLab.leftMotor.setSpeed(motorHigh); // Start robot moving forward
-    WallFollowingLab.rightMotor.setSpeed(motorHigh);
-    WallFollowingLab.leftMotor.forward();
-    WallFollowingLab.rightMotor.forward();
+    WallFollowingLab1.leftMotor.setSpeed(motorHigh); // Start robot moving forward
+    WallFollowingLab1.rightMotor.setSpeed(motorHigh);
+    WallFollowingLab1.leftMotor.forward();
+    WallFollowingLab1.rightMotor.forward();
   }
 
   @Override
@@ -33,22 +33,22 @@ public class BangBangController implements UltrasonicController {
 //    int DELTASPD = 100; // Bang-bang constant
 //    int WALLDIST = 30; 
     if(Math.abs(distError) <= bandwidth) { //Within tolerance - Keep going.
-    		WallFollowingLab.leftMotor.setSpeed(motorHigh); //0 bias
-    		WallFollowingLab.rightMotor.setSpeed(motorHigh);
-    		WallFollowingLab.leftMotor.forward();
-    		WallFollowingLab.rightMotor.forward();
+    		WallFollowingLab1.leftMotor.setSpeed(motorHigh); //0 bias
+    		WallFollowingLab1.rightMotor.setSpeed(motorHigh);
+    		WallFollowingLab1.leftMotor.forward();
+    		WallFollowingLab1.rightMotor.forward();
     }
     else if(distError > 0) { //Too close to the wall - Move away.
-		WallFollowingLab.leftMotor.setSpeed(motorHigh); 
-		WallFollowingLab.rightMotor.setSpeed(motorLow);
-		WallFollowingLab.leftMotor.forward();
-		WallFollowingLab.rightMotor.forward();
+		WallFollowingLab1.leftMotor.setSpeed(motorLow ); 
+		WallFollowingLab1.rightMotor.setSpeed(motorHigh + 80);
+		WallFollowingLab1.leftMotor.forward();
+		WallFollowingLab1.rightMotor.forward();
     }
     else if(distError < 0) { //Too far from the wall - Move closer.
-		WallFollowingLab.leftMotor.setSpeed(motorLow);
-		WallFollowingLab.rightMotor.setSpeed(motorHigh);
-		WallFollowingLab.leftMotor.forward();
-		WallFollowingLab.rightMotor.forward();
+		WallFollowingLab1.leftMotor.setSpeed(motorHigh + 80);
+		WallFollowingLab1.rightMotor.setSpeed(motorLow );
+		WallFollowingLab1.leftMotor.forward();
+		WallFollowingLab1.rightMotor.forward();
     }
     
   }
