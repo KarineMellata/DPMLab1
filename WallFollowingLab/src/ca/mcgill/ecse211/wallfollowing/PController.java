@@ -11,6 +11,7 @@ public class PController implements UltrasonicController {
   private static final int MAXCORRECTION = 50;
   private static final int PROPCONST = 10;
   private static final int SINTERVAL = 100;
+  public boolean isTooClose;
 
   private final int bandCenter;
   private final int bandWidth;
@@ -72,9 +73,17 @@ public class PController implements UltrasonicController {
     }
     else if (distError > 0) {
     		diff = calcProp(distError);
+    		if(distance < 18) {
+    			isTooClose = true;
+        		WallFollowingLab1.leftMotor.setSpeed(MOTOR_SPEED); 
+        		WallFollowingLab1.rightMotor.setSpeed(MOTOR_SPEED);
+        		WallFollowingLab1.leftMotor.backward();
+        		WallFollowingLab1.rightMotor.backward();
+    		}
+    		isTooClose = false;
     		WallFollowingLab1.leftMotor.setSpeed(MOTOR_SPEED - diff); //0 bias
     		WallFollowingLab1.rightMotor.setSpeed(MOTOR_SPEED + diff);
-    		WallFollowingLab1.leftMotor.forward();
+    		WallFollowingLab1.leftMotor.backward();
     		WallFollowingLab1.rightMotor.forward();
     }
     
