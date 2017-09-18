@@ -5,14 +5,11 @@ import lejos.hardware.motor.EV3LargeRegulatedMotor;
 public class PController implements UltrasonicController {
 
   /* Constants */
-  private static final int MOTOR_SPEED = 200;
-  private static final int MOTOR_SPEED_SLOW = 100;
-  private static final int FILTER_OUT = 20;
-  private static final int MAXCORRECTION = 50;
-  private static final int PROPCONST = 10;
-  private static final int SINTERVAL = 100;
-  public boolean isTooClose;
-
+  private static final int motorSpeed = 200;
+  private static final int motorSpeedSlow = 100;
+  private static final int filterOut = 20;
+  private static final int maxCorrection = 50;
+  private static final int propConst = 10;
   private final int bandCenter;
   private final int bandWidth;
   private int distance;
@@ -23,8 +20,8 @@ public class PController implements UltrasonicController {
     this.bandWidth = bandwidth;
     this.filterControl = 0;
 
-    WallFollowingLab1.leftMotor.setSpeed(MOTOR_SPEED); // Initalize motor rolling forward
-    WallFollowingLab1.rightMotor.setSpeed(MOTOR_SPEED);
+    WallFollowingLab1.leftMotor.setSpeed(motorSpeed); // Initalize motor rolling forward
+    WallFollowingLab1.rightMotor.setSpeed(motorSpeed);
     WallFollowingLab1.leftMotor.forward();
     WallFollowingLab1.rightMotor.forward();
   }
@@ -34,9 +31,9 @@ public class PController implements UltrasonicController {
 	  if (diff < 0) {
 		  diff = -diff;
 	  }
-	  correction = (int) (PROPCONST * (double)diff);
-	  if (correction >= MOTOR_SPEED_SLOW) {
-		  correction = MAXCORRECTION;
+	  correction = (int) (propConst * (double)diff);
+	  if (correction >= motorSpeedSlow) {
+		  correction = maxCorrection;
 	  }
 	  return correction;
   }
@@ -49,7 +46,7 @@ public class PController implements UltrasonicController {
     // (n.b. this was not included in the Bang-bang controller, but easily
     // could have).
     //
-    if (distance >= 255 && filterControl < FILTER_OUT) {
+    if (distance >= 255 && filterControl < filterOut) {
       // bad value, do not set the distance var, however do increment the
       // filter value
       filterControl++;
@@ -66,31 +63,29 @@ public class PController implements UltrasonicController {
     int distError = bandCenter - distance; //Error = reference control value - measured distance from the wall  
     int diff;
     if(Math.abs(distError) <= bandWidth) {
-    		WallFollowingLab1.leftMotor.setSpeed(MOTOR_SPEED); //0 bias
-		WallFollowingLab1.rightMotor.setSpeed(MOTOR_SPEED);
+    		WallFollowingLab1.leftMotor.setSpeed(motorSpeed); //0 bias
+		WallFollowingLab1.rightMotor.setSpeed(motorSpeed);
 		WallFollowingLab1.leftMotor.forward();
 		WallFollowingLab1.rightMotor.forward();
     }
     else if (distError > 0) {
     		diff = calcProp(distError);
     		if(distance < 18) {
-    			isTooClose = true;
-        		WallFollowingLab1.leftMotor.setSpeed(MOTOR_SPEED); 
-        		WallFollowingLab1.rightMotor.setSpeed(MOTOR_SPEED);
+        		WallFollowingLab1.leftMotor.setSpeed(motorSpeed); 
+        		WallFollowingLab1.rightMotor.setSpeed(motorSpeed);
         		WallFollowingLab1.leftMotor.backward();
         		WallFollowingLab1.rightMotor.backward();
     		}
-    		isTooClose = false;
-    		WallFollowingLab1.leftMotor.setSpeed(MOTOR_SPEED - diff); //0 bias
-    		WallFollowingLab1.rightMotor.setSpeed(MOTOR_SPEED + diff);
+    		WallFollowingLab1.leftMotor.setSpeed(motorSpeed - diff); //0 bias
+    		WallFollowingLab1.rightMotor.setSpeed(motorSpeed + diff);
     		WallFollowingLab1.leftMotor.backward();
     		WallFollowingLab1.rightMotor.forward();
     }
     
     else if (distError < 0) {
     		diff = calcProp(distError);
-    		WallFollowingLab1.leftMotor.setSpeed(MOTOR_SPEED + diff); //0 bias
-    		WallFollowingLab1.rightMotor.setSpeed(MOTOR_SPEED - diff);
+    		WallFollowingLab1.leftMotor.setSpeed(motorSpeed + diff); //0 bias
+    		WallFollowingLab1.rightMotor.setSpeed(motorSpeed - diff);
     		WallFollowingLab1.leftMotor.forward();
     		WallFollowingLab1.rightMotor.forward();
     }

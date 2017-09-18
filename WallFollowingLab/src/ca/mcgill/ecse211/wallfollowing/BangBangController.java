@@ -11,7 +11,6 @@ public class BangBangController implements UltrasonicController {
   private final int motorLow;
   private final int motorHigh;
   private int distance;
-  public boolean isTooClose;
 
   public BangBangController(int bandCenter, int bandwidth, int motorLow, int motorHigh) {
     // Default Constructor
@@ -43,8 +42,8 @@ public class BangBangController implements UltrasonicController {
 			WallFollowingLab1.rightMotor.forward();
     }
     else if(distError < 0) { //Too far from the wall - Move closer.
-		WallFollowingLab1.leftMotor.setSpeed(motorHigh + 50);
-		WallFollowingLab1.rightMotor.setSpeed(motorLow );
+		WallFollowingLab1.leftMotor.setSpeed(motorHigh + 20);
+		WallFollowingLab1.rightMotor.setSpeed(motorLow);
 		WallFollowingLab1.leftMotor.forward();
 		WallFollowingLab1.rightMotor.forward();
     }

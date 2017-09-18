@@ -33,10 +33,6 @@ public class Printer extends Thread {
       t.drawString("US Distance: " + cont.readUSDistance(), 0, 2); // print last US reading
       t.drawString("L Speed" + WallFollowingLab1.leftMotor.getSpeed(), 0, 3);
       t.drawString("R Speed" + WallFollowingLab1.rightMotor.getSpeed(), 0, 4);
-      if(cont.isTooClose == true) {
-    	  	t.drawString("TOO CLOSE!!!!", 0, 5);
-      }
-
       try {
         Thread.sleep(200); // sleep for 200 mS
       } catch (Exception e) {
